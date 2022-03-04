@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+      <form method="POST">
+      <p> New Users should register here</p>
+      <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+          <br>
+        <label for="pwd">Password:</label><br>
+        <input type="password" id="pwd" name="pwd">
+          <br>
+        <label for="pwd2">Confirm Password:</label><br>
+        <input type="password" id="pwd2" name="pwd2">
+        {% if message %}
+          <p>{{message}}</p>
+        {% endif %}
+          <br><br>
+          <input type="submit" value="Register">&nbsp &nbsp
+          <a href="{{url_for('login')}}"> Login</a>
+      </form>
+</body>
+</html>

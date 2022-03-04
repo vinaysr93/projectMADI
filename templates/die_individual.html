@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Individual Tool</title>
+     <link rel="stylesheet" href="./static/die_individual.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     <style>
+
+        .vwidth{
+                padding-left:0.80cm
+            }
+        .sk{
+            padding-left:1.7cm
+        }
+        .quantity
+        {
+             padding-left:0.8cm
+        }
+
+        .tlength{
+
+            padding-left:0.3cm
+
+        }
+        .dtype{
+        padding-left:0.7cm
+        }
+
+        .dlength{
+        padding-left:.54cm
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+
+        <h1> Please input the requirements</h1>
+        <form action="/dashboard" method="POST">
+                     <p>SK &nbsp&nbsp<span class= "sk" ><select name="SK" id="SK">
+                     <option value="10" selected>10 </option>
+                     </select></span>
+                     </p>
+
+
+<!--           -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+
+
+             <script language="javascript" type="text/javascript">
+                        function dynamicdropdown(listindex)
+                        {
+                            switch (listindex)
+                            {
+                            case "1V" :
+                                document.getElementById("source").options[0]=new Option("Select status","");
+                                document.getElementById("source").options[1]=new Option("4V 86","4VS");
+                                document.getElementById("source").options[2]=new Option("5V 86","5VS");
+                                document.getElementById("source").options[3]=new Option("6V 86","6VS");
+                                document.getElementById("source").options[4]=new Option("7V 86","7VS");
+                                document.getElementById("source").options[5]=new Option("8V 86","8VS");
+                                document.getElementById("source").options[6]=new Option("10V 86","10VS");
+                                document.getElementById("source").options[7]=new Option("12V 86","12VS");
+                                document.getElementById("source").options[8]=new Option("14V 86","14VS");
+                                document.getElementById("source").options[9]=new Option("16V 86","16VS");
+                                document.getElementById("source").options[10]=new Option("18V 86","18VS");
+                                document.getElementById("source").options[11]=new Option("20V 86","20VS");
+                                document.getElementById("source").options[12]=new Option("25V 86","25VS");
+                                document.getElementById("source").options[13]=new Option("32V 86","32VS");
+                                document.getElementById("source").options[14]=new Option("40V 86","40VS");
+                                document.getElementById("source").options[15]=new Option("4V 30","4VA");
+                                document.getElementById("source").options[16]=new Option("6V 30","6VA");
+                                document.getElementById("source").options[17]=new Option("8V 30","8VA");
+                                document.getElementById("source").options[18]=new Option("12V 30","12VA");
+                                break;
+                            case "2V" :
+                                document.getElementById("source").options[0]=new Option("Select status","");
+                                document.getElementById("source").options[1]=new Option("4X7 86","4x7DS");
+                                document.getElementById("source").options[2]=new Option("6X10 86","6X10DS");
+                                document.getElementById("source").options[3]=new Option("8X12 86","8X12DS");
+                                break;
+                            }
+                            return true;
+                        }
+            </script>
+
+
+    <div class="category_div" id="category_div">Die Type:
+        <select id="source" name="source" onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
+        <option value="">Select V Width</option>
+        <option value="1V">1V</option>
+        <option value="2V">2V</option>
+        </select>
+    </div>
+
+            <br>
+    <div class="sub_category_div" id="sub_category_div">Status:
+        <script type="text/javascript" language="JavaScript">
+        document.write('<select name="status" id="status"><option value="">Select status</option></select>')
+        </script>
+        <noscript>
+        <select id="status" name="status">
+            <option value="open">OPEN</option>
+            <option value="delivered">DELIVERED</option>
+        </select>
+        </noscript>
+    </div>
+
+
+    <br>
+
+
+
+
+<!--                    <p> Die Type &nbsp  <span class="dtype">-->
+<!--                <select name="die_type" id="die_type">-->
+<!--                     <option value="1V">1V </option>-->
+<!--                     <option value="2V">2V</option>-->
+
+<!--                </select></span>-->
+<!--                   </p>-->
+
+<!--                <p>V Width<span class= "vwidth" >-->
+<!--                <select name="vwidth" id="vwidth">-->
+<!--                    <option value="11">4X7 86 Degree 2V</option>-->
+<!--                    <option value="12">6x10 86 Degree 2V</option>-->
+<!--                    <option value="13">8x12 86 Degree 2V</option>-->
+<!--                     <option value="14">14x18 86 Degree 2V</option>-->
+<!--                    <option value="15">12x20 86 Degree 2V</option>-->
+<!--                    <option value="16">16x25 86 Degree 2V</option>-->
+<!--                    <option value="17">6x10 30 Degree 2V</option>-->
+<!--                    <option value="18">8x12 30 Degree 2v</option>-->
+<!--                </select></span></p>-->
+
+
+                <p>Die Length <span class="dlength"><select name="dlength" id="dlength">
+                     <option value="510">510</option>
+                     <option value="200">200</option>
+                     <option value="370">370</option>
+
+
+                </select></span></p>
+                <p>Quantity &nbsp<span class="quantity"><input name="quantity" id="quantity" type="text" default="1"  onkeyup="multiply()"></p>
+                <script>
+                   function multiply(){
+                    var x=document.getElementById("dlength").value;
+                    var y=document.getElementById("quantity").value;
+
+                    document.getElementById("total_length").value = x * y;
+                    }
+
+                </script></span>
+                    <p>Total Length<span class="tlength"><input name="total_length" type="text" id="total_length"></span></p>
+                    <br><br>
+                    <input name="Add" type="submit" value="Add">
+
+
+
+        </form>
+
+
+</body>
+</html>

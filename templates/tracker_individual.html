@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Tracker</title>
+     <link rel="stylesheet" href="./static/tool_individual.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     <style>
+
+        .trackertype{
+            padding-left:0.2cm
+            }
+        .name{
+            padding-left:1.95cm
+        }
+        .quantity
+        {
+             padding-left:1.0cm
+        }
+
+        .tlength{
+
+            padding-left:0.6cm
+
+        }
+        .description{
+        padding-left:.32cm
+        }
+
+        .plength{
+        padding-left:.18cm
+        }
+         .mcq{
+            padding-left:.2cm
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+        <h1> Please add the tracker details</h1>
+        <form action="/dashboard" method="POST">
+                     <p>Name &nbsp&nbsp<span class= "name" ><input type="text" id="fname" name="fname"><br>
+                     </p>
+                    <p>Description &nbsp  <span class="description"><textarea name="Text1" cols="40" rows="3"></textarea>
+                </span>
+                   </p>
+
+                <p>Tracker Type   <span class= "trackertype" >
+
+
+                    <input type="radio" id="trackertype" name="trackertype" value="numerical">
+                    <label for="numerical">Numerical</label>
+                    <input type="radio" id="trackertype" name="trackertype" value="binary">
+                    <label for="binary">Binary Yes/No</label>
+                    <input type="radio" id="trackertype" name="trackertype" value="mcq">
+                    <label for="mcq">Multiple Choice </label>
+                </select></span></>
+
+            <p>Values for MCQ<span class= "mcq" ><input type="text" id="mcqvalues" name="mcqvalues"></span></p>
+            <p>Please enter the values separated with comma ex: lorem,ipsum,dolor,sit</p>
+
+                    <br><br>
+                    <input name="Add" type="submit" value="Add">
+
+
+
+        </form>
+
+
+</body>
+</html>

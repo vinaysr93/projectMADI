@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./static/login.css">
+    <link rel="icon" type="image/x-icon" href="./static/favicon.ico" />
+</head>
+
+<body>
+
+       <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <div class="fadeIn first">
+            <img src="./static/amada.png" id="icon" alt="User Icon" />
+        </div>
+      <form action="/" method="POST" >
+<!--        <label for="email">&nbspEmail:</label><br>&nbsp-->
+          <input type="email" id="email" class="fadeIn second" name="email" placeholder="email"><br><br>
+<!--        <input type="email" id="email" name="email"><br><br>-->
+<!--         <label for="pwd">&nbspPassword:</label><br>&nbsp-->
+          <input type="password" id="pwd" class="fadeIn third" name="pwd" placeholder="password">
+<!--        <input type="password" id="pwd" name="pwd">-->
+        <br><br>&nbsp
+          {% if message %}
+            <p>{{message}}</p>
+          {% endif %}
+          <input name="login" type="submit" class="fadeIn fourth" value="Submit">
+<!--        <input name="login" type="submit" value="Submit">-->
+          <br><br>
+        <p><a href= "{{url_for('register')}}">&nbspNew User Register Here </a></p>
+
+      </form>
+</body>
+</html>

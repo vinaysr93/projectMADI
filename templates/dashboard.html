@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+     <link rel="stylesheet" href="./static/dashboard.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+        <h1>Dashboard</h1>
+       <form action="/dashboard" method="POST">
+       <table class="table table-bordered">
+           <thead>
+           <tr>
+           <td> <b>SrNumber</b></td>
+           <td><b>Tracker Name</b></td>
+           <td><b>Last Tracked</b></td>
+           </tr>
+           </thead>
+         {% if message%}
+            <p>{{message}}</p>
+
+         {% else %}
+            <tbody>
+           {% for k in item %}
+                    <tr>
+                    <td name="serial" value="{{k.srnuml}}">{{loop.index}}</td>
+
+                    <td>{{k.sk}}</td>
+                    <td>{{k.quantity}}</td>
+                    <td>{{k.length}}</td>
+                    <td>{{k.toolcode}}</td>
+                    <td>{{k.description}}</td>
+                    <td><a href="{{k.eimage}}" onclick='window.open(this.href,"_blank","width=500,height=500"); return false;'>Image</a>
+                    </td>
+                    <td>{{k.unitprice}}</td>
+                    <td>{{k.totalprice}}</td>
+                    <td><a href="/delete/{{k.srnuml}}">&nbspDelete</td>
+                    <td><a href="/update/{{k.srnuml}}">&nbspUpdate</td>
+                    </tr>
+              {% endfor %}
+         {% endif %}
+
+            </tbody>
+       </table>
+
+
+
+
+        <p> <a href="{{url_for('tracker_individual')}}"> +Add Tracker Event</a></p>
+
+       </form>
+
+</body>
+</html>

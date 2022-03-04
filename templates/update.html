@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+    <link rel="stylesheet" href="./static/update.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+
+        .height{
+            padding-left:0.0cm
+            }
+        .sk{
+            padding-left:1.75cm
+        }
+        .quantity
+        {
+             padding-left:0.9cm
+        }
+
+        .tlength{
+
+            padding-left:0.4cm
+
+        }
+        .ptype{
+        padding-left:.3cm
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+      <p></p>
+        <h1> Please input the requirements</h1>
+        <form action="/dashboard" method="POST">
+                     <p >SK &nbsp&nbsp<span class= "sk" ><select name="SK" id="SK">
+
+                     <option value="11" {% if sk==11 %} selected {% endif %}>11 </option>
+                     <option value="10" {% if sk==10 %} selected {% endif %}>10 </option>
+
+                     </select>
+                          </span>
+                     </p>
+                    <p> Punch Type &nbsp
+                        <span class="ptype">
+                <select name="Punches" id="Punches">
+                     <option value="Standard" {% if punch=="Standard" %} selected {% endif %}>Standard</option>
+                     <option value="Sash" {% if punch=="Sash" %} selected {% endif %}>Sash</option>
+                     <option value="Gooseneck" {% if punch=="Gooseneck" %} selected {% endif %}>Gooseneck</option>
+                     <option value="Straight" {% if punch=="Straight" %} selected {% endif %}>Straight</option>
+                     <option value="Acute" {% if punch=="Acute" %} selected {% endif %}>Acute</option>
+                </select>
+                            </span>
+                   </p>
+
+
+                <p>Punch Height &nbsp
+                 <span class= "height" >
+                <select name= "height" id="height">
+                    <option value="120" {% if height==120 %} selected {% endif %}>120</option>
+                    <option value="90" {% if height==90 %} selected {% endif %}>90</option>
+                    </select></p>
+
+                </span>
+                <p>Punch Length &nbsp<select name="length" id="length">
+                     <option value="510" {% if length==510 %} selected {% endif %}>510</option>
+                     <option value="200" {% if length==200 %} selected {% endif %}>200</option>
+                     <option value="370" {% if length==370 %} selected {% endif %}>370</option>
+                     <option value="200E" {% if length=="200E" %} selected {% endif %}>200 Ear</option>
+                </select></p>
+                <p>Quantity &nbsp<span class="quantity"><input name="quantity" id="quantity" type="text" onkeyup="multiply()">
+                <script>
+                   function multiply(){
+                    var x=document.getElementById("length").value;
+                    var y=document.getElementById("quantity").value;
+
+                    document.getElementById("total_length").value = x * y;
+                    }
+
+                </script>
+                </span>
+                </p>
+
+            <p>Total Length<span class="tlength"><input name="total_length" type="text" id="total_length"></span></p>
+                    <br><br>
+                    <input name="Update" type="submit" value="Update">
+
+
+
+        </form>
+
+
+</body>
+</html>
