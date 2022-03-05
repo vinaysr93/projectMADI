@@ -22,26 +22,21 @@
            <td><b>Last Tracked</b></td>
            </tr>
            </thead>
-         {% if message%}
+         {% if message %}
             <p>{{message}}</p>
 
          {% else %}
             <tbody>
-           {% for k in item %}
+           {% for k in usert_tlist %}
                     <tr>
                     <td name="serial" value="{{k.srnuml}}">{{loop.index}}</td>
 
-                    <td>{{k.sk}}</td>
-                    <td>{{k.quantity}}</td>
-                    <td>{{k.length}}</td>
-                    <td>{{k.toolcode}}</td>
-                    <td>{{k.description}}</td>
-                    <td><a href="{{k.eimage}}" onclick='window.open(this.href,"_blank","width=500,height=500"); return false;'>Image</a>
-                    </td>
-                    <td>{{k.unitprice}}</td>
-                    <td>{{k.totalprice}}</td>
-                    <td><a href="/delete/{{k.srnuml}}">&nbspDelete</td>
-                    <td><a href="/update/{{k.srnuml}}">&nbspUpdate</td>
+                    <td>{{k.trackerid}}</td>
+                    <td>{{k.userid}}</td>
+                    <td>{{k.last_tracked}}</td>
+
+                    <td><a href="/delete/{{k.trackerid}}">&nbspDelete</td>
+                    <td><a href="/update/{{k.trackerid}}">&nbspUpdate</td>
                     </tr>
               {% endfor %}
          {% endif %}
@@ -52,7 +47,7 @@
 
 
 
-        <p> <a href="{{url_for('tracker_individual')}}"> +Add Tracker Event</a></p>
+        <p> <a href="/tracker_individual/{{uid}}"> +Add Tracker Event</a></p>
 
        </form>
 

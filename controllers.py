@@ -75,54 +75,46 @@ def dashboard(uid):
 
         if item == []:
 
-            return render_template("dashboard.html", message='No events are present Add them', item=item)
+            return render_template("dashboard.html", message='No events are present Add them', item=item,uid=uid)
 
         else:
 
 
+            user_tlist=Tracker.query.filter_by(userid=uid).all()
 
-            return render_template("dashboard.html",message='',item=item)
+            return render_template("dashboard.html",message='',user_tlist=user_tlist,uid=uid)
 
 
     elif request.method == "POST" and 'Add' in request.form:  # Takes care of addition into database
 
-        sk = request.form.get('SK')
-        punches = request.form.get('Punches')
-        height = request.form.get("height")
-        length = request.form.get("length")
-        temp_length = length.strip('E')
-        quantity = request.form.get("quantity")
-        total_quantity = int(temp_length) * int(quantity)
-
-        tool_type_c = Tool.query.filter_by(tool_type=punches, tool_height=height).first()
-        tcode = tool_type_c.srnum
-
-        query_code = Standard.query.filter_by(height=height, length=length, tool_type_code=tcode).first()
-        image=query_code.simage
-        catalog_code = query_code.code
-        description=query_code.description
+        name = request.form.get('name').strip()
+        description = request.form.get("description").strip()
+        trackertype = request.form.get("trackertype").strip()
+        mcqvalue = request.form.get("mcqvalues").strip()
 
 
-        uprice=get_price(sk,catalog_code)
-        tprice=uprice*int(quantity)
+        checkquery=TrackerList.query.filter_by(tracker_name=name,trackerdescription=description,trackertype=trackertype,mcqvalue=mcqvalue).first()
+        if checkquery:
 
-
-
-        add_entry = End_list(sk=sk, quantity=quantity, length=length, toolcode=catalog_code,description=description,eimage=image,unitprice=uprice,totalprice=tprice)
-        db.session.add(add_entry)
-        db.session.commit()
-
-
-        item = End_list.query.all()
-
-        if item == []:
-
-            return render_template("dashboard.html", message='No tools are present Add them', item=item)
+            message="Tracker with same details present please use a different one"
+            return render_template("tracker_individual.html", uid=uid, message=message)
 
         else:
 
-            return render_template("dashboard.html", message='', item=item)
 
+                addentry_tl=TrackerList(tracker_name=name,trackerdescription=description,trackertype=trackertype,mcqvalue=mcqvalue)
+                db.session.add(addentry_tl)
+                db.session.commit()
+
+                get_id=TrackerList.query.filter_by(tracker_name=name,trackerdescription=description,trackertype=trackertype,mcqvalue=mcqvalue).first()
+                aid=get_id.tid
+                addentry_t=Tracker(trackerid=aid,userid=uid)
+                db.session.add(addentry_t)
+                db.session.commit()
+
+
+                print(name,description,trackertype,mcqvalue)
+                return render_template(url_for("dashboard/{uid}".format(uid=uid)))
 
     elif request.method == "GET":
 
@@ -131,42 +123,41 @@ def dashboard(uid):
         if item==[]:
 
 
-            return render_template("dashboard.html", message='No Events are present', item=item)
+            return render_template("dashboard.html", message='No Events are present', item=item,uid=uid)
 
         else:
-            return render_template("dashboard.html",message='', item=item)
+            return render_template("dashboard.html",message='', item=item,uid=uid)
 
     elif request.method == "POST" and 'Update' in request.form:  # Takes care of updation into database
 
-        sk = request.form.get('SK')
-        punches = request.form.get('Punches')
-        height = request.form.get("height")
-        length = request.form.get("length")
-        temp_length = length.strip('E')
-        quantity = request.form.get("quantity")
-        total_quantity = int(temp_length) * int(quantity)
-        srnum=int(numl[-1])
-
-        tool_type_c = Tool.query.filter_by(tool_type=punches, tool_height=height).first()
-        tcode = tool_type_c.srnum
-
-        query_code = Standard.query.filter_by(height=height, length=length, tool_type_code=tcode).first()
-        catalog_code = query_code.code
-        description = query_code.description
-
-
-        update_entry=End_list.query.filter_by(srnuml=srnum).first()
-        update_entry.sk=sk
-        update_entry.quantity=int(quantity)
-        update_entry.length=length
-        update_entry.toolcode=catalog_code
-        update_entry.description=description
-        update_entry.unitprice=get_price(sk,catalog_code)
-        update_entry.totalprice=get_price(sk,catalog_code)*int(quantity)
-        db.session.commit()
-
-        item = End_list.query.all()
         return render_template("dashboard.html", message='', item=item)
+
+
+
+@app.route("/tracker_individual/<uid>", methods=["GET", "POST"])
+def tracker_individual(uid):
+    if request.method == "GET":
+        return render_template("tracker_individual.html",uid=uid,message='')
+
+    if request.method == "POST":
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route("/delete/<srnum>", methods=["GET", "POST"])
 def delete_entry(srnum):
@@ -177,13 +168,24 @@ def delete_entry(srnum):
 
     return redirect("/dashboard")
 
-@app.route("/tracker_individual", methods=["GET", "POST"])
-def tracker_individual():
-    if request.method == "GET":
-        return render_template("tracker_individual.html")
 
-    if request.method == "POST":
-        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route("/tool_individual_die",methods=["GET","POST"])
 def tool_individual_die():

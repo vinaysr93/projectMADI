@@ -12,11 +12,12 @@ class Tracker(db.Model):
 
 
 class TrackerList(db.Model):
-    __table__name = "trackerlist"
+    __tablename__ = "trackerlist"
     tid = db.Column("TrackerID", db.Integer, autoincrement=True, primary_key=True)
     tracker_name=db.Column("TrackerName",db.String,nullable=False)
     trackerdescription = db.Column("TrackerDescription", db.String, nullable=False)
-
+    trackertype=db.Column("TrackerType",db.String,nullable=False)
+    mcqvalue=db.Column("MCQValue",db.String)
 
 class User(db.Model):
 

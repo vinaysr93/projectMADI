@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Tracker</title>
-     <link rel="stylesheet" href="./static/tool_individual.css">
+     <link rel="stylesheet" href="./static/tracker_individual.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
      <style>
@@ -42,10 +42,13 @@
 
 
         <h1> Please add the tracker details</h1>
-        <form action="/dashboard" method="POST">
-                     <p>Name &nbsp&nbsp<span class= "name" ><input type="text" id="fname" name="fname"><br>
+
+
+
+        <form action="/dashboard/{{uid}}" method="POST">
+                     <p>Name &nbsp&nbsp<span class= "name" ><input type="text" id="name" name="name"><br>
                      </p>
-                    <p>Description &nbsp  <span class="description"><textarea name="Text1" cols="40" rows="3"></textarea>
+                    <p>Description &nbsp  <span class="description"><textarea name="description" id="description" cols="40" rows="3"></textarea>
                 </span>
                    </p>
 
@@ -64,12 +67,11 @@
             <p>Please enter the values separated with comma ex: lorem,ipsum,dolor,sit</p>
 
                     <br><br>
-                    <input name="Add" type="submit" value="Add">
+                    <input name="Add" type="submit" value="Add" >
 
 
 
         </form>
-
 
 </body>
 </html>
