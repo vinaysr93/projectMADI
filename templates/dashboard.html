@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
 
      <link rel="stylesheet" href="./static/dashboard.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-
 </head>
+
 <body>
         <h1>Dashboard</h1>
        <form action="/dashboard" method="POST">
@@ -18,8 +18,10 @@
            <thead>
            <tr>
            <td> <b>SrNumber</b></td>
-           <td><b>Tracker Name</b></td>
-           <td><b>Last Tracked</b></td>
+           <td><b>&nbspTracker Name</b></td>
+
+           <td><b>&nbsp Last Tracked</b></td>
+           <td><b>&nbsp Log </b></td>
            </tr>
            </thead>
          {% if message %}
@@ -29,14 +31,14 @@
             <tbody>
            {% for k in usert_tlist %}
                     <tr>
-                    <td name="serial" value="{{k.srnuml}}">{{loop.index}}</td>
+                    <td name="serial" value="{{k.srnuml}}">&nbsp&nbsp{{loop.index}}</td>
 
-                    <td>{{k.trackerid}}</td>
-                    <td>{{k.userid}}</td>
-                    <td>{{k.last_tracked}}</td>
 
-                    <td><a href="/delete/{{k.trackerid}}">&nbspDelete</td>
-                    <td><a href="/update/{{k.trackerid}}">&nbspUpdate</td>
+                    <td>&nbsp&nbsp{{k.tracker_name}}</td>
+                    <td>&nbsp&nbsp{{k.last_tracked}}</td>
+                    <td>&nbsp&nbsp&nbsp&nbsp<a href="/log/{{uid}}/{{k.tid}}">+  </a></td>
+                    <td>&nbsp&nbsp<a href="/delete/{{uid}}/{{k.tid}}">Delete</td>
+                    <td>&nbsp&nbsp<a href="/update/{{uid}}/{{k.tid}}">Update</td>
                     </tr>
               {% endfor %}
          {% endif %}

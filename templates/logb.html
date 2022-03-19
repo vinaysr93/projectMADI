@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log</title>
+    <link rel="stylesheet" href="./static/tracker_individual.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+    .formfield * {
+                        vertical-align: middle;
+                    }
+    </style>
+</head>
+<body>
+
+        <form action="/log/{{uid}}/{{tid}}" method="POST">
+        <p>Log {{activity_name}}</p>
+
+          <p>Were you able to complete {{activity_name}}?</p>
+            <input type="radio" id="yes" name="activity_completion" value="Yes" required>
+            <label for="yes">Yes</label>
+            <input type="radio" id="no" name="activity_completion" value="No">
+             <label for="no">No</label><br>
+
+         <label for="date">Date you want to log</label>
+         <input type="date" id="date" name="date" required>
+
+          <br><br>
+          <label for="appt">Select a time:</label>
+          <input type="time" id="appt" name="appt" required>
+          <p class="formfield"> Notes:
+            <textarea rows="3" cols="14" id="Notes" name="Notes" spellcheck="False">Enter your notes</textarea></p>
+            <br><br>
+
+          <input type="submit">
+
+        </form>
+</body>
+</html>
