@@ -19,7 +19,6 @@ def create_app():
 app,api = create_app()
 
 from controllers import *
-from api import CourseAPI
-api.add_resource(CourseAPI,"/api/course","/api/course/<course_id>")
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
