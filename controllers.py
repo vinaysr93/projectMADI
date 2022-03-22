@@ -12,10 +12,19 @@ import requests
 import os,random
 import csv
 import uuid
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import plotly.io as pio
+pio.renderers.default = "browser"
+import plotly.graph_objects as go
+
 
 
 numl=[]
 session= {}
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -25,13 +34,14 @@ def register():
         email = request.form.get("email")
         pwd = request.form.get("pwd")
         pwd2 = request.form.get("pwd2")
+        username=request.form.get("username")
         query_email = User.query.filter_by(useremail=email).first()
         if query_email:
 
             return render_template("register.html", message="Email already registered ")
         else:
             if pwd == pwd2:  # Checks if the password is the same
-                user_entry = User(useremail=email, userpass=pwd)
+                user_entry = User(useremail=email, userpass=pwd,username=username)
                 db.session.add(user_entry)
                 db.session.commit()
                 return render_template("login.html", message='')
@@ -57,7 +67,7 @@ def login():
                 if password == data_password.userpass:
                     uidq=User.query.filter_by(useremail=email).first()
                     uid=int(uidq.userid)
-                    print(uid)
+
                     return redirect("/dashboard/{uid}".format(uid=uid))
                 else:
 
@@ -73,20 +83,21 @@ def login():
 @app.route("/dashboard/<uid>", methods=["GET", "POST"])
 def dashboard(uid):
 
+    username=User.query.filter_by(userid=uid).first().username
     if request.method == "POST" and "login" in request.form:
-        print(request.form)
+
         item = TrackerList.query.filter_by(userid=uid).all()
 
         if item == []:
 
-            return render_template("dashboard.html", message='No events are present Add them', item=item,uid=uid)
+            return render_template("dashboard.html", message='No events are present Add them', item=item,uid=uid,username=username)
 
         else:
 
 
             user_tlist=TrackerList.query.filter_by(userid=uid).all()
 
-            return render_template("dashboard.html",message='',user_tlist=user_tlist,uid=uid)
+            return render_template("dashboard.html",message='',user_tlist=user_tlist,uid=uid,username=username)
 
 
     elif request.method == "POST" and 'Add' in request.form:  # Takes care of addition into database
@@ -124,10 +135,10 @@ def dashboard(uid):
         if usert_tlist==[]:
 
 
-            return render_template("dashboard.html", message='No Events are present', usert_tlist=usert_tlist,uid=uid)
+            return render_template("dashboard.html", message='No Events are present', usert_tlist=usert_tlist,uid=uid,username=username)
 
         else:
-            return render_template("dashboard.html",message='', usert_tlist=usert_tlist,uid=uid)
+            return render_template("dashboard.html",message='', usert_tlist=usert_tlist,uid=uid,username=username)
 
 
 
@@ -135,7 +146,7 @@ def dashboard(uid):
 
     elif request.method == "POST" and 'Update' in request.form:  # Takes care of updation into database
         usert_tlist = TrackerList.query.filter_by(userid=uid).all()
-        return render_template("dashboard.html", message='', usert_tlist=usert_tlist)
+        return render_template("dashboard.html", message='', usert_tlist=usert_tlist,username=username)
 
 
 
@@ -192,7 +203,7 @@ def log(uid,tid):
             dater=request.form.get("date")
             timer=request.form.get("appt")
             date_split=list(map(int,dater.split("-")))
-            print(date_split)
+
             datea=date(date_split[0],date_split[1],date_split[2])
 
             time_split=list(map(int,timer.split(":")))
@@ -204,13 +215,12 @@ def log(uid,tid):
             date_time= datetime.combine(datea,timea)
             time_stamp=datetime.timestamp(date_time)
 
-            print(date_time,time_stamp)
 
 
 
             value=request.form.get("activity_completion")
             notes=request.form.get('Notes')
-            print(notes)
+
             add_entry=Tracker(trackerid=tid,userid=uid,date=dater,time=timer,notes=notes,value=value,timestamp=time_stamp)
             add_entry2= TrackerList.query.filter_by(userid=uid,tid=tid).first()
             add_entry2.last_tracked=datetime.fromtimestamp(time_stamp)  # Used to update the last tracked column in tracker list.
@@ -227,7 +237,7 @@ def log(uid,tid):
             dater = request.form.get("date")
             timer = request.form.get("appt")
             date_split = list(map(int, dater.split("-")))
-            print(date_split)
+
             datea = date(date_split[0], date_split[1], date_split[2])
 
             time_split = list(map(int, timer.split(":")))
@@ -257,7 +267,7 @@ def log(uid,tid):
             dater = request.form.get("date")
             timer = request.form.get("appt")
             date_split = list(map(int, dater.split("-")))
-            print(date_split)
+
             datea = date(date_split[0], date_split[1], date_split[2])
 
             time_split = list(map(int, timer.split(":")))
@@ -277,6 +287,145 @@ def log(uid,tid):
             db.session.commit()
 
             return redirect("/dashboard/{uid}".format(uid=uid))
+
+
+
+
+
+@app.route(("/activitylog/<uid>/<tid>"),methods=["GET","POST"])
+def     tracker_mod(uid,tid):
+
+    if request.method=="GET":
+        tquery = Tracker.query.filter_by(userid=uid,trackerid=tid).all()
+        tquery2=TrackerList.query.filter_by(userid=uid,tid=tid).first()
+        tquery3 = Tracker.query.filter_by(userid=uid, trackerid=tid).all()
+        name=tquery2.tracker_name
+        description=tquery2.trackerdescription
+        timestampl=[]
+        valuel=[]
+
+
+
+        for x in tquery:
+            timestampl.append(datetime.fromtimestamp(float(x.timestamp)))
+            valuel.append(x.value)
+
+
+        l=len(valuel)
+        x=pd.to_datetime(timestampl)
+        y=pd.DataFrame(valuel)
+
+        plt.scatter(timestampl,valuel)
+        plt.xlabel("Timestamp")
+        plt.ylabel("Value")
+        plt.tight_layout()
+        plt.xticks(rotation=30, ha='right')
+        plt.savefig('./static/graph.png')
+        plt.close()
+
+
+        return render_template("activitylog_details.html",uid=uid,tid=tid,img="{{url_for('static', filename='graph.png')}}",tlist=tquery3,name=name,description=description)
+
+
+
+
+
+@app.route(("/activitylog/update/<uid>/<tid>/<timestamp>"),methods=["GET","POST"])
+def activity_log_update(uid,tid,timestamp):
+
+
+    if request.method=='GET':
+
+        q=TrackerList.query.filter_by(tid=tid,userid=uid).first()
+        type=q.trackertype
+        name=q.tracker_name
+        if type=='numerical':
+
+            subq=Tracker.query.filter_by(userid=uid,trackerid=tid,timestamp=timestamp).first()
+            date=subq.date
+            time=subq.time
+            value=subq.value
+            notes=subq.notes
+
+            return render_template('activity_log_update_n.html',date=date,time=time,value=value,name=name,tid=tid,uid=uid,timestamp=timestamp)
+
+        elif type=='binary':
+            subq = Tracker.query.filter_by(userid=uid, trackerid=tid, timestamp=timestamp).first()
+            date = subq.date
+            time = subq.time
+            notes= subq.notes
+            return render_template('activity_log_update_b.html', date=date, time=time,notes=notes,name=name,tid=tid,uid=uid,timestamp=timestamp)
+
+        elif type=='mcq':
+
+            subq = Tracker.query.filter_by(userid=uid, trackerid=tid, timestamp=timestamp).first()
+            date = subq.date
+            time = subq.time
+            notes = subq.notes
+            mcqvalue=list(q.mcqvalue.split(","))
+            return render_template('activity_log_update_m.html', date=date, time=time, notes=notes,name=name,tid=tid,uid=uid,timestamp=timestamp,mcq_values=mcqvalue)
+
+
+
+
+
+    if request.method=='POST':
+        q = Tracker.query.filter_by(trackerid=tid, userid=uid,timestamp=timestamp).first()
+        q2= TrackerList.query.filter_by(tid =tid,userid=uid).first()
+        type = q2.trackertype
+
+        if type == 'numerical':
+
+            value=request.form.get('activity_quantity')
+            notes=request.form.get('Notes')
+
+            q.value=value
+            q.notes=notes
+            db.session.commit()
+
+            return redirect("/activitylog/{uid}/{tid}".format(uid=uid, tid=tid))
+
+
+
+        if type=='binary':
+
+            value=request.form.get("activity_completion")
+            notes=request.form.get("Notes")
+
+            q.value = value
+            q.notes = notes
+            db.session.commit()
+
+            return redirect("/activitylog/{uid}/{tid}".format(uid=uid, tid=tid))
+
+        if type=='mcq':
+
+
+            value=request.form.get("mcq")
+            print(value)
+            notes=request.form.get("Notes")
+            q.value = value
+            q.notes = notes
+            db.session.commit()
+
+            return redirect("/activitylog/{uid}/{tid}".format(uid=uid, tid=tid))
+
+
+
+
+@app.route(("/activitylog/delete/<uid>/<tid>/<timestamp>"),methods=["GET","POST"])
+def activity_log_delete(uid,tid,timestamp):
+
+        queryt=Tracker.query.filter_by(userid=uid,trackerid=tid,timestamp=timestamp).all()
+
+
+
+        for x in queryt:
+            db.session.delete(x)
+            db.session.commit()
+
+        return redirect("/activitylog/{uid}/{tid}".format(uid=uid,tid=tid))
+
 
 
 
@@ -308,6 +457,7 @@ def delete_entry(uid,tid):
 
     del_entry = TrackerList.query.filter_by(userid=uid,tid=tid).first()
     del_entry2= Tracker.query.filter_by(userid=uid,trackerid=tid).all()
+
 
     for x in del_entry2:
         db.session.delete(x)
@@ -345,7 +495,3 @@ def update(uid,tid):
 
 
 
-@app.route("/tool_individual_die",methods=["GET","POST"])
-def tool_individual_die():
-    if request.method=="GET":
-        return redirect(url_for("dashboard"))

@@ -12,7 +12,7 @@
 </head>
 
 <body>
-        <h1>Dashboard</h1>
+        <h1>Hello {{username}}, Welcome to your Dashboard</h1>
        <form action="/dashboard" method="POST">
        <table class="table table-bordered">
            <thead>
@@ -34,7 +34,7 @@
                     <td name="serial" value="{{k.srnuml}}">&nbsp&nbsp{{loop.index}}</td>
 
 
-                    <td>&nbsp&nbsp{{k.tracker_name}}</td>
+                    <td><a href="/activitylog/{{uid}}/{{k.tid}}">&nbsp&nbsp{{k.tracker_name}}</a></td>
                     <td>&nbsp&nbsp{{k.last_tracked}}</td>
                     <td>&nbsp&nbsp&nbsp&nbsp<a href="/log/{{uid}}/{{k.tid}}">+  </a></td>
                     <td>&nbsp&nbsp<a href="/delete/{{uid}}/{{k.tid}}">Delete</td>
