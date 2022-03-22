@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Tracker</title>
+     <link rel="stylesheet" href="./static/tracker_individual.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+     <style>
+
+        .trackertype{
+            padding-left:0.2cm
+            }
+        .name{
+            padding-left:1.95cm
+        }
+        .quantity
+        {
+             padding-left:1.0cm
+        }
+
+        .tlength{
+
+            padding-left:0.6cm
+
+        }
+        .description{
+        padding-left:.32cm
+        }
+
+        .plength{
+        padding-left:.18cm
+        }
+         .mcq{
+            padding-left:.2cm
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+        <h1> Please update the tracker details</h1>
+
+
+
+        <form action="/update/{{uid}}/{{tid}}" method="POST">
+                    <p>Name &nbsp&nbsp<span class= "name" ><input type="text" id="name" name="name" placeholder="{{tname}}" disabled="disabled"><br>
+                    </span></p>
+                    <p>Description &nbsp  <span class="description"><textarea name="description" id="description" cols="40" rows="3" placeholder="{{tdescription}}"></textarea>
+                </span>
+                   </p>
+
+                <p>Tracker Type   <span class= "trackertype" >
+
+                    {% if trackertype=="numerical" %}
+                        <input type="radio" id="trackertype" name="trackertype" value="numerical" checked="checked">
+                        <label for="numerical">Numerical</label>
+                         <input type="radio" id="trackertype" name="trackertype" value="binary">
+                        <label for="binary">Binary Yes/No</label>
+                        <input type="radio" id="trackertype" name="trackertype" value="mcq" >
+                        <label for="mcq">Multiple Choice </label>
+
+                    {% elif trackertype=="binary" %}
+                        <input type="radio" id="trackertype" name="trackertype" value="numerical">
+                        <label for="numerical">Numerical</label>
+                         <input type="radio" id="trackertype" name="trackertype" value="binary" checked="checked">
+                        <label for="binary">Binary Yes/No</label>
+                        <input type="radio" id="trackertype" name="trackertype" value="mcq" >
+                      <label for="mcq">Multiple Choice </label>
+
+                        {% else %}
+                        <input type="radio" id="trackertype" name="trackertype" value="numerical" >
+                        <label for="numerical">Numerical</label>
+                         <input type="radio" id="trackertype" name="trackertype" value="binary">
+                        <label for="binary">Binary Yes/No</label>
+                        <input type="radio" id="trackertype" name="trackertype" value="mcq" checked="checked" >
+                      <label for="mcq">Multiple Choice </label>
+                    {% endif %}
+                </select></span></p>
+
+            <p>Values for MCQ<span class= "mcq" ><input type="text" id="mcqvalues" name="mcqvalues" placeholder={{mcqvalue}}></span></p>
+            <p>Please enter the values separated with comma ex: lorem,ipsum,dolor,sit</p>
+
+                    <br><br>
+                    <input name="Update" type="submit" value="Update" > <input type="button" onclick="location.href='/dashboard/{{uid}}';" value="Back" />
+
+
+
+
+        </form>
+
+</body>
+</html>

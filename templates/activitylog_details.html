@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tracker Log</title>
+
+
+     <style>
+
+        .trackertype{
+            padding-left:0.2cm
+            }
+        .name{
+            padding-left:1.95cm
+        }
+        .quantity
+        {
+             padding-left:1.0cm
+        }
+
+        .tlength{
+
+            padding-left:0.6cm
+
+        }
+        .description{
+        padding-left:.32cm
+        }
+
+        .plength{
+        padding-left:.18cm
+        }
+         .mcq{
+            padding-left:.2cm
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+        <h1> Please add the tracker details</h1>
+
+
+
+        <form action="/dashboard/{{uid}}" method="POST">
+            <p>Name: {{name}}<span class= "name" ><br></span>
+                     </p>
+                    <p>Description: {{description}}  <span class="description">
+                </span>
+                   </p>
+
+                <p> <img src="{{url_for('static', filename='graph.png')}}" alt="graph"> </img></p>
+
+                    <br><br>
+
+
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Sr Number</td>
+                                <td>Time Stamp</td>
+                                <td>Value</td>
+                                <td>Notes</td>
+                            </tr>
+                        </thead>
+
+                            {% for k in tlist %}
+                            <tr>
+                                    <td>{{loop.index}}</td>
+                                    <td>{{k.date}} {{k.time}} </td>
+                                    <td>{{k.value}}</td>
+                                    <td>{{k.notes}}</td>
+                                    <td ><a href="/activitylog/update/{{k.userid}}/{{k.trackerid}}/{{k.timestamp}}">Update</td>
+                                    <td><a href="/activitylog/delete/{{k.userid}}/{{k.trackerid}}/{{k.timestamp}}">Delete</td>
+
+
+                            </tr>
+                            {% endfor %}
+
+
+
+                    </table>
+
+                    <br><br>
+
+                    <input type="button" onclick="location.href='/dashboard/{{uid}}';" value="Back" />
+
+
+        </form>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tracker Log</title>
+
+
+     <style>
+
+        .trackertype{
+            padding-left:0.2cm
+            }
+        .name{
+            padding-left:1.95cm
+        }
+        .quantity
+        {
+             padding-left:1.0cm
+        }
+
+        .tlength{
+
+            padding-left:0.6cm
+
+        }
+        .description{
+        padding-left:.32cm
+        }
+
+        .plength{
+        padding-left:.18cm
+        }
+         .mcq{
+            padding-left:.2cm
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+        <h1> Please update the timestamp details</h1>
+
+
+
+        <form action="/activitylog/update/{{uid}}/{{tid}}/{{timestamp}}" method="POST">
+             <p>Activity Name: {{name}}</p>
+            <p>Timestamp: {{date}} {{time}}
+            </p>
+
+
+            <p>Value:
+               <input type="radio" id="yes" name="activity_completion" value="Yes" required>
+            <label for="yes">Yes</label>
+            <input type="radio" id="no" name="activity_completion" value="No">
+             <label for="no">No</label><br>
+             <p class="formfield"> Notes:
+            <textarea rows="3" cols="14" name="Notes" spellcheck="False">{{notes}}</textarea></p>
+
+
+                    <br><br>
+
+
+
+                    <input type="submit"/>
+
+
+        </form>
+
+</body>
+</html>

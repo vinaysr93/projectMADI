@@ -55,7 +55,7 @@
                 <p>Tracker Type   <span class= "trackertype" >
 
 
-                    <input type="radio" id="trackertype" name="trackertype" value="numerical">
+                    <input type="radio" id="trackertype" name="trackertype" value="numerical" checked="checked">
                     <label for="numerical">Numerical</label>
                     <input type="radio" id="trackertype" name="trackertype" value="binary">
                     <label for="binary">Binary Yes/No</label>
@@ -68,7 +68,7 @@
 
                     <br><br>
                     <input name="Add" type="submit" value="Add" >
-
+                    <input type="button" onclick="location.href='/dashboard/{{uid}}';" value="Back" />
 
 
         </form>
